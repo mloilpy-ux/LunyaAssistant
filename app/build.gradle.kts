@@ -11,8 +11,8 @@ android {
         applicationId = "com.lunya.assistant"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 8
+        versionName = "8.0.0-Infinite"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
