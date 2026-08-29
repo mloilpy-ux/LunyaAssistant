@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="160dp"
+    android:viewportWidth="120"
+    android:viewportHeight="160">
+    <!-- Cozy Banana Yellow Oversize Knit Sweater -->
+    <path
+        android:fillColor="#FFF176"
+        android:pathData="M35,80 C26,80 10,105 16,140 C18,146 30,144 32,135 L36,108 L34,154 L86,154 L84,108 L88,135 C90,144 102,146 104,140 C110,105 94,80 85,80 Z" />
+    <!-- Cute Banana Print on Chest -->
+    <path
+        android:fillColor="#FBC02D"
+        android:strokeColor="#F57F17"
+        android:strokeWidth="1"
+        android:pathData="M52,105 C54,98 66,98 68,106 C66,114 54,115 52,105 Z" />
+    <path
+        android:fillColor="#689F38"
+        android:pathData="M50,102 L53,104 L52,106 Z" />
+    <!-- Sweater Ribs -->
+    <path
+        android:strokeColor="#FDD835"
+        android:strokeWidth="2"
+        android:pathData="M38,154 L82,154 M40,82 L80,82" />
+</vector>
