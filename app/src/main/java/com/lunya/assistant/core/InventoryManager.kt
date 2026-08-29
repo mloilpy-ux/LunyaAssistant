@@ -42,6 +42,15 @@ object InventoryManager {
             durationMs = 45_000L
         ),
         EnergyDrinkItem(
+            id = "can_banana_nitro",
+            name = "Banana Nitro",
+            flavor = "Банановый нитро-заряд (Nana)",
+            iconRes = R.drawable.ic_can_banana_nitro,
+            auraColor = 0xAAFFEB3B.toInt(),
+            speedBoost = 2.5f,
+            durationMs = 75_000L
+        ),
+        EnergyDrinkItem(
             id = "plush_shark",
             name = "Cyber Shark",
             flavor = "Плюшевая акула для объятий",
