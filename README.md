@@ -1,24 +1,24 @@
-# LunyaAssistant
+# LunyaAssistant v8 Infinite
 
-Cyber-style Android assistant with floating overlay avatar, accessibility services,wardrobe system, Google Workspace integration and root/system control features.
+Cyber-style Android assistant with floating overlay, AI (Gemini/Voice/Vision), infinite wardrobe generators, procedural physics, tamagotchi routines, game mode optimizer and more.
 
-## Features
-- Floating Lunya overlay character
-- Modular avatar (hair, horns, glasses, outfits, cans)
-- Accessibility service
-- Notification listener
-- Google Calendar / Tasks integration
-- Screen automation & root actions (libsu)
+## Features (v8)
+- Floating Lunya overlay + modular avatar
+- Infinite Wardrobe Matrix Generator
+- Procedural shaders & kinematic synthesis
+- AI: Gemini chat, Voice wake, Vision agent, Proactive brain
+- Tamagotchi routines & mini-games
+- Audio-reactive engine
+- Google Workspace + root/system automation
+- Nana Banana skin & items
 
 ## Build
+GitHub Actions builds debug APK automatically on push to `main`.
 
+Or locally:
 ```bash
-./gradlew assembleDebug
+gradle assembleDebug
 ```
-
-APK will be at: `app/build/outputs/apk/debug/app-debug.apk`
-
-GitHub Actions automatically builds debug APK on every push to `main`.
 
 ## Requirements
 - Android 8.0+ (API 26)
