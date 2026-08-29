@@ -1,74 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0D0D12"
-    android:fillViewport="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LUNYA // ASSISTANT"
-            android:textColor="#39FF14"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Кибер-олень компаньон · твой персонаж"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btnStartLunya"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Запустить Луню"
-            android:backgroundTint="#39FF14"
-            android:textColor="#000000" />
-
-        <Button
-            android:id="@+id/btnStopLunya"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Отозвать Луню"
-            android:backgroundTint="#333333"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/btnAccessibility"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Служба доступности"
-            android:backgroundTint="#222233"
-            android:textColor="#39FF14" />
-
-        <Button
-            android:id="@+id/btnNotificationAccess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Доступ к уведомлениям"
-            android:backgroundTint="#222233"
-            android:textColor="#39FF14" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="После запуска разреши оверлей. Включи Accessibility и Notification Listener — Луня будет реагировать на приложения и уведомления."
-            android:textColor="#888888"
-            android:textSize="12sp" />
-    </LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#0D0D12">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LUNYA // ASSISTANT" android:textColor="#39FF14" android:textSize="24sp" android:textStyle="bold"/>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Кибер-олень компаньон · Nana Banana" android:textColor="#AAAAAA" android:textSize="14sp"/>
+<EditText android:id="@+id/apiKeyInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:hint="Nana Banana API key" android:inputType="textPassword" android:textColor="#FFFFFF" android:hintTextColor="#777777"/>
+<EditText android:id="@+id/taskIdInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="taskId" android:text="1e099185c5d9ac033ce9678225fb46a4" android:textColor="#FFFFFF" android:hintTextColor="#777777"/>
+<Button android:id="@+id/btnGenerateLunya" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Сгенерировать Луню" android:backgroundTint="#39FF14" android:textColor="#000000"/>
+<ProgressBar android:id="@+id/generationProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone"/>
+<ImageView android:id="@+id/generatedImage" android:layout_width="match_parent" android:layout_height="320dp" android:layout_marginTop="12dp" android:scaleType="fitCenter" android:contentDescription="Сгенерированная Лунья"/>
+<Button android:id="@+id/btnStartLunya" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Запустить Луню" android:backgroundTint="#39FF14" android:textColor="#000000"/>
+<Button android:id="@+id/btnStopLunya" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Отозвать Луню" android:backgroundTint="#333333" android:textColor="#FFFFFF"/>
+<Button android:id="@+id/btnAccessibility" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Служба доступности" android:backgroundTint="#222233" android:textColor="#39FF14"/>
+<Button android:id="@+id/btnNotificationAccess" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Доступ к уведомлениям" android:backgroundTint="#222233" android:textColor="#39FF14"/>
+</LinearLayout>
 </ScrollView>
