@@ -1,10 +1,11 @@
 package com.lunya.assistant.core
 
 import android.util.Log
+import com.lunya.assistant.animation.Emotion
 import kotlinx.coroutines.*
 
 /**
- * Central decision brain of Lunya (from original / v7 / v8 projects).
+ * Central brain — stats + emotion hints used by overlay / hub.
  */
 class LunyaBrain {
 
@@ -13,7 +14,8 @@ class LunyaBrain {
     }
 
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-    var currentEmotion: EmotionState = EmotionState.IDLE_BORED
+
+    var currentEmotion: Emotion = Emotion.IDLE
         private set
 
     var stats = CharacterStats()
@@ -23,25 +25,24 @@ class LunyaBrain {
         when (type) {
             "pet", "tap" -> {
                 stats.affection = (stats.affection + 0.05f).coerceAtMost(1f)
-                currentEmotion = EmotionState.SURPRISED
+                currentEmotion = if (type == "pet") Emotion.LOVE else Emotion.CURIOUS
             }
             "drink" -> {
                 stats.energy = (stats.energy + 0.3f).coerceAtMost(1f)
-                currentEmotion = EmotionState.DRINKING_ENERGY
+                currentEmotion = Emotion.DRINKING
             }
             "overclock" -> {
                 stats.isOverclocked = true
                 stats.speedMultiplier = 2.0f
-                currentEmotion = EmotionState.OVERCLOCKED
+                currentEmotion = Emotion.OVERCLOCKED
             }
-            else -> currentEmotion = EmotionState.IDLE_BORED
+            else -> currentEmotion = Emotion.IDLE
         }
     }
 
     fun tick() {
-        // natural decay
         stats.energy = (stats.energy - 0.002f).coerceAtLeast(0f)
-        if (stats.energy < 0.2f) currentEmotion = EmotionState.SLEEPING
+        if (stats.energy < 0.2f) currentEmotion = Emotion.SLEEPY
     }
 
     fun shutdown() {
