@@ -32,6 +32,7 @@ import com.lunya.assistant.wardrobe.LunyaWardrobe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -51,7 +52,6 @@ class LunyaOverlayService : Service() {
     private lateinit var reactionEngine: LunyaReactionEngine
     private lateinit var wardrobe: LunyaWardrobe
     private val reactionScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
     private val brain = LunyaBrain()
     private lateinit var hub: MillionInteractionHub
     private lateinit var appAwareness: AppAwarenessEngine
@@ -82,17 +82,13 @@ class LunyaOverlayService : Service() {
         avatarView = ModularAvatarView(this)
         hub = MillionInteractionHub(avatarView.director)
         appAwareness = AppAwarenessEngine(this, avatarView.director).also {
-            it.onAppReaction = { profile ->
-                avatarView.director.currentEmotion = profile.emotion
-                showSpeech(profile.phrase)
-            }
+            it.onAppReaction = { profile -> avatarView.director.currentEmotion = profile.emotion; showSpeech(profile.phrase) }
         }
         wardrobe = LunyaWardrobe(this)
-        wardrobe.current().let { avatarView.applyOutfit(it) }
+        avatarView.applyOutfit(wardrobe.current())
 
         val prefs = getSharedPreferences("lunya_ai", MODE_PRIVATE)
-        val key = prefs.getString("api_key", "").orEmpty()
-        if (key.isNotBlank()) reactionEngine = LunyaReactionEngine(this, key)
+        prefs.getString("api_key", "").orEmpty().takeIf { it.isNotBlank() }?.let { reactionEngine = LunyaReactionEngine(this, it) }
 
         reactionView = ImageView(this).apply {
             scaleType = ImageView.ScaleType.FIT_CENTER
@@ -109,17 +105,11 @@ class LunyaOverlayService : Service() {
         }
         container = FrameLayout(this).apply {
             addView(avatarView, FrameLayout.LayoutParams(280, 360))
-            addView(reactionView, FrameLayout.LayoutParams(150, 150).also {
-                it.gravity = Gravity.TOP or Gravity.END
-                it.topMargin = 35
-            })
-            addView(speechBubble, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT
-            ).also { it.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL; it.topMargin = 8 })
+            addView(reactionView, FrameLayout.LayoutParams(150, 150).also { it.gravity = Gravity.TOP or Gravity.END; it.topMargin = 35 })
+            addView(speechBubble, FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT).also { it.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL; it.topMargin = 8 })
         }
         layoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
@@ -147,13 +137,14 @@ class LunyaOverlayService : Service() {
                 withContext(Dispatchers.Main) {
                     if (bitmap != null) {
                         reactionView.setImageBitmap(bitmap)
+                        reactionView.alpha = 0f
                         reactionView.visibility = ImageView.VISIBLE
                         reactionView.animate().alpha(1f).setDuration(180).start()
                         reactionView.postDelayed({ reactionView.visibility = ImageView.GONE }, 4200)
                     }
                 }
             } catch (_: Exception) {
-                // The existing local avatar remains active when online generation fails.
+                // Keep the local animated avatar alive if generation/network is unavailable.
             } finally {
                 val next = pendingReaction
                 pendingReaction = null
@@ -181,47 +172,47 @@ class LunyaOverlayService : Service() {
     }
 
     private fun showSpeech(text: String) {
-        speechBubble.text = text; speechBubble.visibility = TextView.VISIBLE
+        speechBubble.text = text
+        speechBubble.visibility = TextView.VISIBLE
         speechBubble.postDelayed({ speechBubble.visibility = TextView.GONE }, 3200)
     }
 
     fun onNotificationEvent() {
         val fb = hub.handle(InfiniteInteractionMatrix.UserAction.NOTIFICATION)
-        showSpeech(fb.spoken); requestReaction("notification")
+        showSpeech(fb.spoken)
+        requestReaction("notification")
     }
 
     fun giveRandomItem() {
-        val fb = hub.giveProceduralItem(); showSpeech(fb.spoken); requestReaction("success")
+        val fb = hub.giveProceduralItem()
+        showSpeech(fb.spoken)
+        requestReaction("success")
     }
 
     fun changeOutfit() {
         val set = wardrobe.next()
         avatarView.applyOutfit(set)
-        requestReaction("success")
         showSpeech("Луня переоделась: ${set.setName} ✨")
+        requestReaction("success")
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, "Lunya Overlay", NotificationManager.IMPORTANCE_LOW)
-                .apply { description = getString(R.string.service_notification_desc) }
+            val channel = NotificationChannel(CHANNEL_ID, "Lunya Overlay", NotificationManager.IMPORTANCE_LOW).apply { description = getString(R.string.service_notification_desc) }
             getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
         }
     }
 
     private fun buildNotification(): Notification {
         val pi = PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(getString(R.string.service_notification_title))
-            .setContentText(getString(R.string.service_notification_desc))
-            .setSmallIcon(R.drawable.ic_lunya_base_body).setContentIntent(pi).setOngoing(true).build()
+        return NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle(getString(R.string.service_notification_title)).setContentText(getString(R.string.service_notification_desc)).setSmallIcon(R.drawable.ic_lunya_base_body).setContentIntent(pi).setOngoing(true).build()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onDestroy() {
         try { unregisterReceiver(appReceiver) } catch (_: Exception) {}
         try { windowManager.removeView(container) } catch (_: Exception) {}
-        reactionScope.coroutineContext.cancel()
+        reactionScope.cancel()
         brain.shutdown()
         super.onDestroy()
     }
