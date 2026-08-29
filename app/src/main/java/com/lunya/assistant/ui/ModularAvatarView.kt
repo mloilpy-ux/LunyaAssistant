@@ -1,7 +1,6 @@
 package com.lunya.assistant.ui
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -13,8 +12,8 @@ import com.lunya.assistant.wardrobe.MegaWardrobeCatalog
 import com.lunya.assistant.wardrobe.OutfitSet
 
 /**
- * Modular avatar with full per-body-part procedural animation.
- * Every part (head, ears, hair, antlers, arms, eyes...) moves independently.
+ * Layered avatar — DEFAULT is your reference character:
+ * purple body, lime hair, antlers, pink sweater, round glasses, white flower.
  */
 class ModularAvatarView @JvmOverloads constructor(
     context: Context,
@@ -22,23 +21,24 @@ class ModularAvatarView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs) {
 
     private val body = ImageView(context)
+    private val ears = ImageView(context)
     private val outfit = ImageView(context)
     private val hair = ImageView(context)
     private val antlers = ImageView(context)
     private val glasses = ImageView(context)
-    private val handItem = ImageView(context)
     private val flower = ImageView(context)
+    private val handItem = ImageView(context)
 
     val director = LunyaAnimationDirector()
 
     private val partViews = mapOf(
         BodyPart.TORSO to body,
+        BodyPart.EARS_LEFT to ears,
         BodyPart.OUTFIT to outfit,
         BodyPart.HAIR to hair,
         BodyPart.ANTLERS to antlers,
         BodyPart.ACCESSORY_HEAD to glasses,
-        BodyPart.ACCESSORY_HAND to handItem,
-        BodyPart.HEAD to flower // flower rides on head
+        BodyPart.ACCESSORY_HAND to handItem
     )
 
     private val frameRunnable = object : Runnable {
@@ -49,12 +49,26 @@ class ModularAvatarView @JvmOverloads constructor(
     }
 
     init {
-        listOf(body, outfit, hair, antlers, glasses, flower, handItem).forEach {
+        // z-order: body -> ears -> outfit -> hair -> antlers -> glasses -> flower -> hand
+        listOf(body, ears, outfit, hair, antlers, glasses, flower, handItem).forEach {
             it.scaleType = ImageView.ScaleType.FIT_CENTER
             addView(it, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         }
+
+        // === YOUR CHARACTER (reference art) as default ===
         body.setImageResource(R.drawable.ic_lunya_base_body_purple)
-        applyOutfit(MegaWardrobeCatalog.OUTFIT_SETS.first())
+        ears.setImageResource(R.drawable.ic_lunya_ears_purple)
+        hair.setImageResource(R.drawable.ic_lunya_hair_lime)
+        antlers.setImageResource(R.drawable.ic_lunya_antlers)
+        glasses.setImageResource(R.drawable.ic_lunya_glasses_round_ref)
+        outfit.setImageResource(R.drawable.ic_outfit_pastel_sweater)
+        flower.setImageResource(R.drawable.ic_flower_white_clip)
+        flower.visibility = VISIBLE
+        handItem.setImageResource(R.drawable.ic_flower_white_clip)
+
+        // Also register as first wardrobe set if present
+        MegaWardrobeCatalog.OUTFIT_SETS.firstOrNull()?.let { applyOutfit(it) }
+
         postOnAnimation(frameRunnable)
     }
 
@@ -64,8 +78,12 @@ class ModularAvatarView @JvmOverloads constructor(
         antlers.setImageResource(set.hornsRes)
         glasses.setImageResource(set.glassesRes)
         handItem.setImageResource(set.defaultItemRes)
-        // flower clip for reference set
-        if (set.setId == "set_cozy_reference") {
+
+        // Always keep purple body + purple ears for this character
+        body.setImageResource(R.drawable.ic_lunya_base_body_purple)
+        ears.setImageResource(R.drawable.ic_lunya_ears_purple)
+
+        if (set.setId == "set_cozy_reference" || set.hairRes == R.drawable.ic_lunya_hair_lime) {
             flower.setImageResource(R.drawable.ic_flower_white_clip)
             flower.visibility = VISIBLE
         } else {
@@ -75,6 +93,19 @@ class ModularAvatarView @JvmOverloads constructor(
 
     fun setHandItem(resId: Int) {
         handItem.setImageResource(resId)
+    }
+
+    /** Reset to pure reference look */
+    fun resetToReferenceCharacter() {
+        body.setImageResource(R.drawable.ic_lunya_base_body_purple)
+        ears.setImageResource(R.drawable.ic_lunya_ears_purple)
+        hair.setImageResource(R.drawable.ic_lunya_hair_lime)
+        antlers.setImageResource(R.drawable.ic_lunya_antlers)
+        glasses.setImageResource(R.drawable.ic_lunya_glasses_round_ref)
+        outfit.setImageResource(R.drawable.ic_outfit_pastel_sweater)
+        flower.setImageResource(R.drawable.ic_flower_white_clip)
+        flower.visibility = VISIBLE
+        handItem.setImageResource(R.drawable.ic_flower_white_clip)
     }
 
     private fun applyPose(pose: Map<BodyPart, PartTransform>) {
@@ -87,12 +118,12 @@ class ModularAvatarView @JvmOverloads constructor(
             view.scaleY = tf.scaleY * (1f - tf.squash * 0.3f)
             view.alpha = tf.alpha
         }
-        // head-linked parts also get head transform
+        // Head-linked layers follow head transform
         pose[BodyPart.HEAD]?.let { head ->
-            listOf(hair, antlers, glasses, flower).forEach { v ->
+            listOf(hair, antlers, glasses, flower, ears).forEach { v ->
                 v.translationX += head.offsetX * 0.9f
                 v.translationY += head.offsetY * 0.9f
-                v.rotation += head.rotation * 0.8f
+                v.rotation += head.rotation * 0.85f
             }
         }
     }
