@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.LunyaAssistant" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/toxic_lime</item>
+        <item name="colorPrimaryVariant">@color/toxic_lime_dark</item>
+        <item name="colorOnPrimary">@color/matte_black</item>
+        <item name="colorSecondary">@color/glitch_red</item>
+        <item name="android:windowBackground">@color/matte_black</item>
+        <item name="android:statusBarColor">@color/matte_black</item>
+        <item name="android:navigationBarColor">@color/matte_black</item>
+    </style>
+</resources>

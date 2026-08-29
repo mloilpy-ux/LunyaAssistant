@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Луня Ассистент</string>
+    <string name="accessibility_description">Служба отслеживания контекста и интерфейса для ассистента Луни.</string>
+    <string name="service_notification_title">Луня активен</string>
+    <string name="service_notification_desc">Нажмите, чтобы настроить или сменить образ</string>
+    <string name="btn_start_overlay">Запустить Луню</string>
+    <string name="btn_stop_overlay">Отозвать Луню</string>
+    <string name="section_permissions">Разрешения и интеграция</string>
+    <string name="perm_overlay">Отображение поверх окон</string>
+    <string name="perm_accessibility">Служба доступности (Контекст)</string>
+    <string name="perm_root">Root доступ (LibSu)</string>
+    <string name="section_wardrobe">Гардероб и скины</string>
+    <string name="section_items">Инвентарь энергетиков</string>
+</resources>
