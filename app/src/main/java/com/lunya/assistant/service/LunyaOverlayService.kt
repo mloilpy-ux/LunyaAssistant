@@ -68,9 +68,16 @@ class LunyaOverlayService : Service() {
             val pkg = intent.getStringExtra("package_name") ?: return
             val label = intent.getStringExtra("app_label")
             appAwareness.onForegroundApp(pkg, label)
-            val fb = hub.handle(InfiniteInteractionMatrix.UserAction.OPEN_APP)
-            showSpeech(fb.spoken)
-            requestReaction("app_changed")
+            val event = intent.getStringExtra("event")
+            if (event == "notification") {
+                val fb = hub.handle(InfiniteInteractionMatrix.UserAction.NOTIFICATION)
+                showSpeech(fb.spoken)
+                requestReaction("notification")
+            } else {
+                val fb = hub.handle(InfiniteInteractionMatrix.UserAction.OPEN_APP)
+                showSpeech(fb.spoken)
+                requestReaction("app_changed")
+            }
         }
     }
 
@@ -82,7 +89,10 @@ class LunyaOverlayService : Service() {
         avatarView = ModularAvatarView(this)
         hub = MillionInteractionHub(avatarView.director)
         appAwareness = AppAwarenessEngine(this, avatarView.director).also {
-            it.onAppReaction = { profile -> avatarView.director.currentEmotion = profile.emotion; showSpeech(profile.phrase) }
+            it.onAppReaction = { profile ->
+                avatarView.director.currentEmotion = profile.emotion
+                showSpeech(profile.phrase)
+            }
         }
         wardrobe = LunyaWardrobe(this)
         avatarView.applyOutfit(wardrobe.current())
@@ -144,7 +154,7 @@ class LunyaOverlayService : Service() {
                     }
                 }
             } catch (_: Exception) {
-                // Keep the local animated avatar alive if generation/network is unavailable.
+                // Local avatar remains active when network generation is unavailable.
             } finally {
                 val next = pendingReaction
                 pendingReaction = null
