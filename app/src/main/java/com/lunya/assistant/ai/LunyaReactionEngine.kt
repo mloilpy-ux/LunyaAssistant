@@ -13,14 +13,18 @@ class LunyaReactionEngine(context: Context, private val apiKey: String) {
     private val poller = NanaBananaTaskPoller(api)
 
     private val identity = """
-Lunya is a male anthropomorphic deer femboy, strictly deer, never cat or fox. Preserve the exact established Lunya design from the supplied reference: solid light-blue fur, no spots and no white fur; violet nose, violet inner ears and violet eyes; long green-to-yellow neon gradient hair; short fluffy deer tail matching the hair; brown antlers and brown deer hooves; black hoodie with neon-green top; choker with green heart pendant and collar marked L. Keep the same face, proportions, species, colors and recognizable silhouette. No breasts/chest volume.
+Lunya is a male anthropomorphic deer femboy, strictly deer, never cat or fox. Preserve the exact established Lunya design from the supplied reference image: same species, face, proportions, recognizable silhouette and palette. Do not invent another animal or alter the reference character. Keep the current selected outfit from the wardrobe. No breasts/chest volume.
 """.trimIndent()
 
     private val events = mapOf(
         "entry" to "happy greeting, waving, sparkly eyes, tiny hearts",
-        "success" to "proud happy celebration, stars and confetti",
-        "error" to "cute worried reaction, sweat drop, apologetic expression, small glitch symbols",
+        "app_changed" to "curious glance toward the newly opened app, playful surprise",
+        "tap" to "playful excited reaction after being tapped",
+        "pet" to "happy affectionate reaction to being petted, relaxed smile",
+        "long_press" to "dramatic playful overclock reaction, energetic motion lines",
         "notification" to "curious surprised reaction toward a notification bubble",
+        "success" to "proud happy celebration, stars and confetti",
+        "error" to "cute worried reaction, sweat drop, apologetic expression",
         "idle" to "cozy sleepy idle reaction, soft yawn, floating hearts",
         "love" to "shy affectionate reaction, blush, hearts, playful smile",
         "laugh" to "playful laughing reaction, closed happy eyes",
@@ -28,11 +32,10 @@ Lunya is a male anthropomorphic deer femboy, strictly deer, never cat or fox. Pr
     )
 
     suspend fun reaction(event: String, canonicalTaskId: String? = null): String {
-        val task = canonicalTaskId?.takeIf { it.isNotBlank() }
-            ?: prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
-        if (prefs.getString("canonical_reference_url", null).isNullOrBlank() || canonicalTaskId != null) {
-            establishCanonicalReference(task)
-        }
+        prefs.edit().putString("api_key", apiKey).apply()
+        val storedTask = prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
+        val task = canonicalTaskId?.takeIf { it.isNotBlank() } ?: storedTask
+        if (prefs.getString("canonical_reference_url", null).isNullOrBlank()) establishCanonicalReference(task)
         val reference = prefs.getString("canonical_reference_url", null)
         val outfit = wardrobe.current()
         val outfitText = "Current outfit: ${outfit.setName}. ${outfit.description}."
