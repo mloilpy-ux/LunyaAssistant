@@ -2,14 +2,15 @@ package com.lunya.assistant.ai
 
 import kotlinx.coroutines.delay
 
-/** Polls a completed generation task until an image URL appears. */
 class NanaBananaTaskPoller(private val api: NanaBananaApi) {
-    suspend fun awaitImage(taskId: String, attempts: Int = 30, intervalMs: Long = 2000L): String {
+    suspend fun awaitImage(taskId: String, attempts: Int = 40, intervalMs: Long = 3000L): String {
         repeat(attempts) { attempt ->
             val result = api.getTask(taskId)
-            result.resultImageUrl?.takeIf { it.isNotBlank() }?.let { return it }
+            if (result.successFlag == 1) return result.resultImageUrl?.takeIf { it.isNotBlank() }
+                ?: error("Task succeeded but resultImageUrl is missing")
+            if (result.successFlag == 2 || result.successFlag == 3) error("Nana Banana generation failed")
             if (attempt < attempts - 1) delay(intervalMs)
         }
-        error("Nana Banana task did not return resultImageUrl within the polling window")
+        error("Nana Banana generation timed out")
     }
 }
