@@ -26,23 +26,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val overlayPermissionLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { if (Settings.canDrawOverlays(this)) startOverlayService() }
     private val notificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { checkAndRequestOverlay() }
+    private val prefs by lazy { getSharedPreferences("lunya_ai", MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.apiKeyInput.setText(prefs.getString("api_key", ""))
         Toast.makeText(this, CharacterPOVDialogueEngine.greet().spoken, Toast.LENGTH_LONG).show()
 
-        binding.btnStartLunya.setOnClickListener { requestPermissionsAndStart(); generateReaction("entry") }
+        binding.btnStartLunya.setOnClickListener { saveApiSettings(); requestPermissionsAndStart(); generateReaction("entry") }
         binding.btnStopLunya.setOnClickListener { stopService(Intent(this, LunyaOverlayService::class.java)); generateReaction("idle") }
-        binding.btnAccessibility.setOnClickListener { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); generateReaction("notification") }
-        binding.btnNotificationAccess.setOnClickListener { startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)); generateReaction("notification") }
-        binding.btnGenerateLunya.setOnClickListener { generateReaction("entry") }
+        binding.btnAccessibility.setOnClickListener { saveApiSettings(); startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); generateReaction("notification") }
+        binding.btnNotificationAccess.setOnClickListener { saveApiSettings(); startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)); generateReaction("notification") }
+        binding.btnGenerateLunya.setOnClickListener { saveApiSettings(); generateReaction("entry") }
 
         val wardrobe = LunyaWardrobe(this)
         binding.btnWardrobe.setOnClickListener {
             val outfit = wardrobe.next()
             binding.wardrobeStatus.text = "Луня переодета: ${outfit.setName}"
+            saveApiSettings()
             generateReaction("success")
         }
         binding.wardrobeStatus.text = "Одежда: ${wardrobe.current().setName}"
@@ -52,9 +55,16 @@ class MainActivity : AppCompatActivity() {
         binding.root.post { Toast.makeText(this, "Сетов: $sets | ${item.name} ★${item.rarity}", Toast.LENGTH_LONG).show() }
     }
 
+    private fun saveApiSettings() {
+        val key = binding.apiKeyInput.text?.toString()?.trim().orEmpty()
+        val taskId = binding.taskIdInput.text?.toString()?.trim().orEmpty()
+        prefs.edit().putString("api_key", key).putString("canonical_task_id", taskId.ifBlank { "1e099185c5d9ac033ce9678225fb46a4" }).apply()
+    }
+
     private fun generateReaction(event: String) {
         val key = binding.apiKeyInput.text?.toString()?.trim().orEmpty()
         if (key.isBlank()) return
+        saveApiSettings()
         val taskId = binding.taskIdInput.text?.toString()?.trim().orEmpty()
         binding.generationProgress.visibility = View.VISIBLE
         binding.btnGenerateLunya.isEnabled = false
