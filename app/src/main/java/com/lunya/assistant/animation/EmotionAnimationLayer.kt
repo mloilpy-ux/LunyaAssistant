@@ -14,14 +14,13 @@ class EmotionAnimationLayer : AnimationLayer {
     private var current = Emotion.IDLE
 
     override fun evaluate(timeSec: Float, pose: MutableMap<BodyPart, PartTransform>) {
-        // soft transition
         if (current != emotion) current = emotion
 
         val lib = ProceduralMotionLibrary
         when (current) {
             Emotion.HAPPY, Emotion.EXCITED -> {
                 pose[BodyPart.HEAD] = lib.happyBounce(timeSec)
-                pose[BodyPart.EYES] = PartTransform(scaleY = 0.7f) // happy squint
+                pose[BodyPart.EYES] = PartTransform(scaleY = 0.7f)
                 pose[BodyPart.MOUTH] = PartTransform(scaleY = 1.3f, scaleX = 1.2f)
                 pose[BodyPart.TAIL] = lib.tailWag(timeSec, 0.9f)
             }
@@ -50,7 +49,6 @@ class EmotionAnimationLayer : AnimationLayer {
             Emotion.ANGRY -> {
                 pose[BodyPart.HEAD] = PartTransform(offsetY = 2f)
                 pose[BodyPart.EYES] = PartTransform(scaleY = 0.55f, offsetY = 2f)
-                pose[BodyPart.EYEBROWS] // handled as eyes offset
                 pose[BodyPart.MOUTH] = PartTransform(scaleY = 0.6f, scaleX = 0.9f)
             }
             Emotion.OVERCLOCKED -> {
@@ -64,7 +62,10 @@ class EmotionAnimationLayer : AnimationLayer {
                 pose[BodyPart.TAIL] = lib.tailWag(timeSec, 0.7f)
             }
             Emotion.CURIOUS -> {
-                pose[BodyPart.HEAD] = PartTransform(rotation = sineTilt(timeSec), offsetY = -3f)
+                pose[BodyPart.HEAD] = PartTransform(
+                    rotation = ProceduralMotionLibrary.sine(timeSec, 0.3f, 10f),
+                    offsetY = -3f
+                )
                 pose[BodyPart.EARS_LEFT] = PartTransform(rotation = -12f)
                 pose[BodyPart.EARS_RIGHT] = PartTransform(rotation = 15f)
             }
@@ -74,13 +75,10 @@ class EmotionAnimationLayer : AnimationLayer {
             }
         }
 
-        // always blink (unless sleepy)
         if (current != Emotion.SLEEPY) {
             val blink = lib.eyeBlink(timeSec)
             val eye = pose.getOrPut(BodyPart.EYELIDS) { PartTransform() }
             eye.scaleY = blink
         }
     }
-
-    private fun sineTilt(t: Float) = ProceduralMotionLibrary.sine(t, 0.3f, 10f)
 }
