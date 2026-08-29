@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="64dp"
+    android:viewportWidth="48"
+    android:viewportHeight="64">
+    <!-- Striped thigh-high socks from reference -->
+    <path android:fillColor="#E8D5F2" android:pathData="M14,8 L34,8 L36,60 C36,62 12,62 12,60 Z" />
+    <path android:fillColor="#C9B0E0" android:pathData="M14,18 L34,18 L34,26 L14,26 Z" />
+    <path android:fillColor="#C9B0E0" android:pathData="M14,34 L34,34 L34,42 L14,42 Z" />
+    <path android:fillColor="#C9B0E0" android:pathData="M14,50 L34,50 L34,58 L14,58 Z" />
+</vector>

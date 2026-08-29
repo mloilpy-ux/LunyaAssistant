@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="160dp"
+    android:viewportWidth="120"
+    android:viewportHeight="160">
+    <!-- Bright lime-green messy hair inspired by reference -->
+    <path android:fillColor="#7CFF4D" android:pathData="M28,48 C20,28 38,12 60,12 C82,12 100,28 92,48 C98,58 90,78 78,72 C72,55 48,55 42,72 C30,78 22,58 28,48 Z" />
+    <path android:fillColor="#5AE02A" android:pathData="M35,50 C30,35 45,25 60,25 C75,25 90,35 85,50 C80,42 70,38 60,38 C50,38 40,42 35,50 Z" />
+    <!-- Side fluff -->
+    <path android:fillColor="#7CFF4D" android:pathData="M22,55 C12,50 10,70 22,72 C26,62 26,58 22,55 Z" />
+    <path android:fillColor="#7CFF4D" android:pathData="M98,55 C108,50 110,70 98,72 C94,62 94,58 98,55 Z" />
+</vector>

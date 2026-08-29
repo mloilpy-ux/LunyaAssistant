@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="160dp"
+    android:viewportWidth="120"
+    android:viewportHeight="160">
+    <!-- Oversized soft pink/lavender sweater from reference -->
+    <path android:fillColor="#E8B4D4" android:pathData="M28,78 C20,78 8,100 12,140 C14,148 28,146 32,136 L36,105 L34,152 L86,152 L84,105 L88,136 C92,146 106,148 108,140 C112,100 100,78 92,78 Z" />
+    <!-- Collar / neck rib -->
+    <path android:fillColor="#F5C6E0" android:pathData="M42,78 C42,72 78,72 78,78 L80,90 C80,94 40,94 40,90 Z" />
+    <!-- Sleeve cuffs -->
+    <path android:fillColor="#D49BC0" android:pathData="M18,130 L32,128 L34,145 L16,145 Z" />
+    <path android:fillColor="#D49BC0" android:pathData="M102,130 L88,128 L86,145 L104,145 Z" />
+</vector>
