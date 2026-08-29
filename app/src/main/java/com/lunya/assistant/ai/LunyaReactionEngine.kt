@@ -11,35 +11,43 @@ class LunyaReactionEngine(context: Context, private val apiKey: String) {
     private val wardrobe = LunyaWardrobe(appContext)
     private val api = NanaBananaApi(apiKey)
     private val poller = NanaBananaTaskPoller(api)
-
     private val identity = """
-Lunya is a male anthropomorphic deer femboy, strictly deer, never cat or fox. Preserve the exact established Lunya design from the supplied reference image: same species, face, proportions, recognizable silhouette and palette. Do not invent another animal or alter the reference character. Keep the current selected outfit from the wardrobe. No breasts/chest volume.
+Lunya is a male anthropomorphic deer femboy. Strictly deer, never cat, fox or another species. Preserve the supplied canonical Lunya reference exactly: recognizable face, deer anatomy, proportions, silhouette and established palette. No breasts or chest volume. Do not redesign the character. Keep the selected wardrobe outfit.
 """.trimIndent()
-
     private val events = mapOf(
-        "entry" to "happy greeting, waving, sparkly eyes, tiny hearts",
-        "app_changed" to "curious glance toward the newly opened app, playful surprise",
+        "entry" to "warm happy greeting, waving, sparkly eyes, tiny hearts",
+        "app_changed" to "curious glance at the newly opened app, playful surprise",
         "tap" to "playful excited reaction after being tapped",
-        "pet" to "happy affectionate reaction to being petted, relaxed smile",
-        "long_press" to "dramatic playful overclock reaction, energetic motion lines",
-        "notification" to "curious surprised reaction toward a notification bubble",
-        "success" to "proud happy celebration, stars and confetti",
-        "error" to "cute worried reaction, sweat drop, apologetic expression",
-        "idle" to "cozy sleepy idle reaction, soft yawn, floating hearts",
-        "love" to "shy affectionate reaction, blush, hearts, playful smile",
-        "laugh" to "playful laughing reaction, closed happy eyes",
-        "angry" to "cartoonishly annoyed reaction, puffed cheeks, tiny harmless anger marks"
+        "pet" to "very happy affectionate reaction to being petted",
+        "long_press" to "dramatic energetic overclock reaction",
+        "notification" to "curious surprised reaction to a notification",
+        "success" to "proud celebration, stars and confetti",
+        "error" to "cute worried apologetic reaction",
+        "idle" to "cozy sleepy idle, gentle yawn",
+        "love" to "shy affectionate reaction, blush and hearts",
+        "laugh" to "playful laughing reaction",
+        "angry" to "cartoonishly annoyed puffed cheeks",
+        "drink" to "happy energetic reaction while drinking",
+        "bored" to "cute bored reaction, looking around",
+        "sad" to "soft sad reaction, gentle downcast expression",
+        "excited" to "extremely excited celebration",
+        "sleep" to "sleepy cozy reaction with closed eyes"
     )
 
     suspend fun reaction(event: String, canonicalTaskId: String? = null): String {
         prefs.edit().putString("api_key", apiKey).apply()
-        val storedTask = prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
-        val task = canonicalTaskId?.takeIf { it.isNotBlank() } ?: storedTask
+        val task = canonicalTaskId?.takeIf(String::isNotBlank)
+            ?: prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
         if (prefs.getString("canonical_reference_url", null).isNullOrBlank()) establishCanonicalReference(task)
         val reference = prefs.getString("canonical_reference_url", null)
         val outfit = wardrobe.current()
-        val outfitText = "Current outfit: ${outfit.setName}. ${outfit.description}."
-        val prompt = "$identity\n$outfitText\nCreate ONE clean transparent-background emoji/sticker reaction of Lunya. Event: ${events[event] ?: events["idle"]}. Centered full character, readable silhouette, expressive face, polished sticker illustration, no text, no watermark, transparent background."
+        val prompt = buildString {
+            append(identity)
+            append("\nCurrent outfit: ${outfit.setName}. ${outfit.description}.")
+            append("\nCreate ONE transparent-background PNG sticker/emoji of Lunya.")
+            append("\nReaction: ${events[event] ?: events["idle"]}.")
+            append("\nFull character, centered, clean silhouette, expressive face, polished sticker illustration, no text, no watermark, transparent background.")
+        }
         val generatedTask = api.generate2(prompt, listOfNotNull(reference))
         return poller.awaitImage(generatedTask).also { prefs.edit().putString("last_reaction_url", it).apply() }
     }
