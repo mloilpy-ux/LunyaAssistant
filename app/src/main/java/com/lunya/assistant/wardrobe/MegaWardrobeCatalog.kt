@@ -26,6 +26,18 @@ data class WardrobeItem(
 object MegaWardrobeCatalog {
 
     val OUTFIT_SETS = listOf(
+        // === NEW: based on uploaded reference art ===
+        OutfitSet(
+            setId = "set_cozy_reference",
+            setName = "Cozy Pastel Reference",
+            description = "Салатовые волосы, рожки-олень, белый цветок, розовый оверсайз свитер и круглые очки — по референсу",
+            topRes = R.drawable.ic_outfit_pastel_sweater,
+            hornsRes = R.drawable.ic_lunya_antlers,
+            hairRes = R.drawable.ic_lunya_hair_lime,
+            glassesRes = R.drawable.ic_lunya_glasses_round_ref,
+            defaultItemRes = R.drawable.ic_flower_white_clip,
+            auraColor = 0x88E8B4D4.toInt()
+        ),
         OutfitSet(
             setId = "set_nana_banana",
             setName = "Nana Banana Cozy Edition",
@@ -106,6 +118,7 @@ object MegaWardrobeCatalog {
     )
 
     val ALL_HAND_ITEMS = listOf(
+        WardrobeItem("item_flower_white", EquipmentSlot.HAND_ITEM, "White Flower Clip", R.drawable.ic_flower_white_clip),
         WardrobeItem("item_can_banana", EquipmentSlot.HAND_ITEM, "Nana Banana Nitro Can", R.drawable.ic_can_banana_nitro),
         WardrobeItem("item_snack_banana", EquipmentSlot.HAND_ITEM, "Nana Banana Dessert", R.drawable.ic_item_banana_snack),
         WardrobeItem("item_can_lime", EquipmentSlot.HAND_ITEM, "Toxic Lime Can", R.drawable.ic_can_toxic_lime),
@@ -116,6 +129,7 @@ object MegaWardrobeCatalog {
         WardrobeItem("item_shark", EquipmentSlot.HAND_ITEM, "Cyber Shark Plush", R.drawable.ic_plush_shark),
         WardrobeItem("item_boba", EquipmentSlot.HAND_ITEM, "Boba Tea Cup", R.drawable.ic_item_boba_tea),
         WardrobeItem("item_gamepad", EquipmentSlot.HAND_ITEM, "Arcade Gamepad", R.drawable.ic_item_gamepad),
-        WardrobeItem("item_coffee", EquipmentSlot.HAND_ITEM, "Hot Coffee Mug", R.drawable.ic_item_hot_coffee)
+        WardrobeItem("item_coffee", EquipmentSlot.HAND_ITEM, "Hot Coffee Mug", R.drawable.ic_item_hot_coffee),
+        WardrobeItem("item_socks", EquipmentSlot.HAND_ITEM, "Striped Socks", R.drawable.ic_socks_striped)
     )
 }
