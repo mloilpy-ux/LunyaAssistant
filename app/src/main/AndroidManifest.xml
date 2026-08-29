@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- System & Window Permissions -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
@@ -11,8 +10,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission" />
-
-    <!-- Google Services, Accounts & Calendar Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -23,9 +20,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/ic_lunya_base_body"
+        android:icon="@drawable/ic_lunya_base_body_purple"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_lunya_base_body"
+        android:roundIcon="@drawable/ic_lunya_base_body_purple"
         android:supportsRtl="true"
         android:theme="@style/Theme.LunyaAssistant"
         tools:targetApi="34">
@@ -40,14 +37,12 @@
             </intent-filter>
         </activity>
 
-        <!-- Overlay Shimeji / Assistant Service -->
         <service
             android:name=".service.LunyaOverlayService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Accessibility Service for Context & UI Automation -->
         <service
             android:name=".service.LunyaAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
@@ -60,7 +55,6 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
-        <!-- Notification Listener Service for Live System Alerts -->
         <service
             android:name=".service.LunyaNotificationListener"
             android:label="Lunya Notification Engine"
