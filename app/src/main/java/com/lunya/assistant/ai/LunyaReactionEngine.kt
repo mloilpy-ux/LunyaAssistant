@@ -27,9 +27,12 @@ Lunya is a male anthropomorphic deer femboy, strictly deer, never cat or fox. Pr
         "angry" to "cartoonishly annoyed reaction, puffed cheeks, tiny harmless anger marks"
     )
 
-    suspend fun reaction(event: String): String {
-        val canonicalTask = prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
-        if (prefs.getString("canonical_reference_url", null).isNullOrBlank()) establishCanonicalReference(canonicalTask)
+    suspend fun reaction(event: String, canonicalTaskId: String? = null): String {
+        val task = canonicalTaskId?.takeIf { it.isNotBlank() }
+            ?: prefs.getString("canonical_task_id", "1e099185c5d9ac033ce9678225fb46a4")!!
+        if (prefs.getString("canonical_reference_url", null).isNullOrBlank() || canonicalTaskId != null) {
+            establishCanonicalReference(task)
+        }
         val reference = prefs.getString("canonical_reference_url", null)
         val outfit = wardrobe.current()
         val outfitText = "Current outfit: ${outfit.setName}. ${outfit.description}."
