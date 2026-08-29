@@ -1,12 +1,12 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="160dp"
-    android:viewportWidth="120"
-    android:viewportHeight="160">
-    <!-- Soft brown antlers from reference -->
-    <path android:fillColor="#A67C52" android:pathData="M38,28 C32,10 18,8 16,22 C14,32 28,34 34,30 C30,18 36,16 38,28 Z" />
-    <path android:fillColor="#A67C52" android:pathData="M82,28 C88,10 102,8 104,22 C106,32 92,34 86,30 C90,18 84,16 82,28 Z" />
-    <!-- Small branches -->
-    <path android:fillColor="#8B6914" android:pathData="M28,18 C24,12 20,14 22,20" android:strokeWidth="2" android:strokeColor="#8B6914" />
-    <path android:fillColor="#8B6914" android:pathData="M92,18 C96,12 100,14 98,20" android:strokeWidth="2" android:strokeColor="#8B6914" />
+    android:width="120dp" android:height="160dp"
+    android:viewportWidth="120" android:viewportHeight="160">
+    <!-- Soft brown antlers -->
+    <path android:fillColor="#A67C52" android:pathData="M36,26 C28,6 12,4 10,20 C8,32 26,36 34,30 C28,16 34,14 36,26 Z"/>
+    <path android:fillColor="#A67C52" android:pathData="M84,26 C92,6 108,4 110,20 C112,32 94,36 86,30 C92,16 86,14 84,26 Z"/>
+    <!-- Tips -->
+    <path android:fillColor="#8B6914" android:pathData="M24,14 C20,8 16,10 18,16" android:strokeWidth="2.5" android:strokeColor="#8B6914" android:strokeLineCap="round"/>
+    <path android:fillColor="#8B6914" android:pathData="M96,14 C100,8 104,10 102,16" android:strokeWidth="2.5" android:strokeColor="#8B6914" android:strokeLineCap="round"/>
+    <path android:fillColor="#C4A574" android:pathData="M32,22 C30,18 28,19 29,23" android:strokeWidth="1.5" android:strokeColor="#C4A574"/>
+    <path android:fillColor="#C4A574" android:pathData="M88,22 C90,18 92,19 91,23" android:strokeWidth="1.5" android:strokeColor="#C4A574"/>
 </vector>

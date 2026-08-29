@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp" android:height="160dp"
+    android:viewportWidth="120" android:viewportHeight="160">
+    <!-- Purple ears matching body -->
+    <path android:fillColor="#8B7BAB" android:pathData="M28,42 C16,26 6,30 10,48 C12,56 26,52 28,42 Z"/>
+    <path android:fillColor="#8B7BAB" android:pathData="M92,42 C104,26 114,30 110,48 C108,56 94,52 92,42 Z"/>
+    <!-- Inner ear -->
+    <path android:fillColor="#C49BC8" android:pathData="M24,44 C18,34 12,36 14,46 C16,50 23,48 24,44 Z"/>
+    <path android:fillColor="#C49BC8" android:pathData="M96,44 C102,34 108,36 106,46 C104,50 97,48 96,44 Z"/>
+</vector>

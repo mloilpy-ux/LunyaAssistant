@@ -1,13 +1,13 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="160dp"
-    android:viewportWidth="120"
-    android:viewportHeight="160">
-    <!-- Oversized soft pink/lavender sweater from reference -->
-    <path android:fillColor="#E8B4D4" android:pathData="M28,78 C20,78 8,100 12,140 C14,148 28,146 32,136 L36,105 L34,152 L86,152 L84,105 L88,136 C92,146 106,148 108,140 C112,100 100,78 92,78 Z" />
-    <!-- Collar / neck rib -->
-    <path android:fillColor="#F5C6E0" android:pathData="M42,78 C42,72 78,72 78,78 L80,90 C80,94 40,94 40,90 Z" />
-    <!-- Sleeve cuffs -->
-    <path android:fillColor="#D49BC0" android:pathData="M18,130 L32,128 L34,145 L16,145 Z" />
-    <path android:fillColor="#D49BC0" android:pathData="M102,130 L88,128 L86,145 L104,145 Z" />
+    android:width="120dp" android:height="160dp"
+    android:viewportWidth="120" android:viewportHeight="160">
+    <!-- Oversized pink/lavender sweater from reference -->
+    <path android:fillColor="#E8B4D4" android:pathData="M26,76 C16,76 4,100 10,142 C12,150 28,148 32,136 L36,102 L34,154 L86,154 L84,102 L88,136 C92,148 108,150 110,142 C116,100 104,76 94,76 Z"/>
+    <!-- Collar rib -->
+    <path android:fillColor="#F5C6E0" android:pathData="M40,76 C40,70 80,70 80,76 L82,90 C82,94 38,94 38,90 Z"/>
+    <!-- Cuffs -->
+    <path android:fillColor="#D49BC0" android:pathData="M14,128 L30,126 L32,148 L12,148 Z"/>
+    <path android:fillColor="#D49BC0" android:pathData="M106,128 L90,126 L88,148 L108,148 Z"/>
+    <!-- Soft fold lines -->
+    <path android:strokeColor="#D49BC0" android:strokeWidth="1.2" android:pathData="M48,100 L52,130 M68,100 L66,130"/>
 </vector>

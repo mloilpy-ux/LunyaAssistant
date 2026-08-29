@@ -1,20 +1,24 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="160dp"
-    android:viewportWidth="120"
-    android:viewportHeight="160">
-    <!-- Purple fur body matching reference character -->
-    <path android:fillColor="#7B6B9B" android:pathData="M35,90 C35,75 85,75 85,90 L95,150 C95,158 25,158 25,150 Z" />
+    android:width="120dp" android:height="160dp"
+    android:viewportWidth="120" android:viewportHeight="160">
+    <!-- Purple body matching reference -->
+    <path android:fillColor="#7B6B9B" android:pathData="M34,88 C34,74 86,74 86,88 L96,150 C96,158 24,158 24,150 Z"/>
     <!-- Head -->
-    <path android:fillColor="#8B7BAB" android:pathData="M60,35 C38,35 32,55 35,75 C38,95 82,95 85,75 C88,55 82,35 60,35 Z" />
-    <!-- Muzzle -->
-    <path android:fillColor="#6B5B8B" android:pathData="M52,68 C52,65 68,65 68,68 C68,76 52,76 52,68 Z" />
+    <path android:fillColor="#8B7BAB" android:pathData="M60,32 C36,32 30,54 34,76 C38,98 82,98 86,76 C90,54 84,32 60,32 Z"/>
+    <!-- Snout -->
+    <path android:fillColor="#6B5B8B" android:pathData="M50,70 C50,66 70,66 70,70 C70,80 50,80 50,70 Z"/>
     <!-- Nose -->
-    <path android:fillColor="#3A2A4A" android:pathData="M57,66 C57,64 63,64 63,66 C63,69 57,69 57,66 Z" />
-    <!-- Eyes base -->
-    <path android:fillColor="#E8D5F5" android:pathData="M42,56 C40,50 50,48 53,54 C53,58 43,60 42,56 Z" />
-    <path android:fillColor="#E8D5F5" android:pathData="M78,56 C80,50 70,48 67,54 C67,58 77,60 78,56 Z" />
-    <!-- Purple pupils -->
-    <path android:fillColor="#6B3FA0" android:pathData="M45,55 C44,52 49,51 50,54 C50,56 45,57 45,55 Z" />
-    <path android:fillColor="#6B3FA0" android:pathData="M75,55 C76,52 71,51 70,54 C70,56 75,57 75,55 Z" />
+    <path android:fillColor="#2A1A3A" android:pathData="M56,68 C56,65 64,65 64,68 C64,72 56,72 56,68 Z"/>
+    <!-- Eyes white -->
+    <path android:fillColor="#F5E6FF" android:pathData="M40,54 C38,48 50,46 54,54 C54,60 42,62 40,54 Z"/>
+    <path android:fillColor="#F5E6FF" android:pathData="M80,54 C82,48 70,46 66,54 C66,60 78,62 80,54 Z"/>
+    <!-- Purple irises -->
+    <path android:fillColor="#7B3FA0" android:pathData="M44,54 C43,50 50,49 52,54 C52,57 44,58 44,54 Z"/>
+    <path android:fillColor="#7B3FA0" android:pathData="M76,54 C77,50 70,49 68,54 C68,57 76,58 76,54 Z"/>
+    <!-- Pupils -->
+    <path android:fillColor="#1A0A2A" android:pathData="M46,54 A2,2 0 1,1 46,58 A2,2 0 1,1 46,54 Z"/>
+    <path android:fillColor="#1A0A2A" android:pathData="M74,54 A2,2 0 1,1 74,58 A2,2 0 1,1 74,54 Z"/>
+    <!-- Cheek blush -->
+    <path android:fillColor="#C49BC8" android:pathData="M38,66 A4,3 0 1,1 38,72 A4,3 0 1,1 38,66 Z" android:fillAlpha="0.5"/>
+    <path android:fillColor="#C49BC8" android:pathData="M82,66 A4,3 0 1,1 82,72 A4,3 0 1,1 82,66 Z" android:fillAlpha="0.5"/>
 </vector>

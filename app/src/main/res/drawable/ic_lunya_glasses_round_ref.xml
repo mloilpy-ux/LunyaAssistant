@@ -1,12 +1,10 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="160dp"
-    android:viewportWidth="120"
-    android:viewportHeight="160">
-    <!-- Round glasses matching reference -->
-    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.8" android:fillColor="#30FFFFFF" android:pathData="M38,56 m-11,0 a11,11 0 1,1 22,0 a11,11 0 1,1 -22,0" />
-    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.8" android:fillColor="#30FFFFFF" android:pathData="M82,56 m-11,0 a11,11 0 1,1 22,0 a11,11 0 1,1 -22,0" />
-    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.2" android:pathData="M49,56 L71,56" />
-    <!-- Bridge highlight -->
-    <path android:strokeColor="#9B8AA8" android:strokeWidth="1.2" android:pathData="M52,54 L68,54" />
+    android:width="120dp" android:height="160dp"
+    android:viewportWidth="120" android:viewportHeight="160">
+    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.8" android:fillColor="#28FFFFFF"
+        android:pathData="M38,56 m-12,0 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0"/>
+    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.8" android:fillColor="#28FFFFFF"
+        android:pathData="M82,56 m-12,0 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0"/>
+    <path android:strokeColor="#5C4A6B" android:strokeWidth="2.2" android:pathData="M50,56 L70,56"/>
+    <path android:strokeColor="#9B8AA8" android:strokeWidth="1.2" android:pathData="M53,54 L67,54"/>
 </vector>
