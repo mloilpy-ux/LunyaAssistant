@@ -55,11 +55,12 @@ class MainActivity : AppCompatActivity() {
     private fun generateReaction(event: String) {
         val key = binding.apiKeyInput.text?.toString()?.trim().orEmpty()
         if (key.isBlank()) return
+        val taskId = binding.taskIdInput.text?.toString()?.trim().orEmpty()
         binding.generationProgress.visibility = View.VISIBLE
         binding.btnGenerateLunya.isEnabled = false
         lifecycleScope.launch {
             try {
-                val url = LunyaReactionEngine(this@MainActivity, key).reaction(event)
+                val url = LunyaReactionEngine(this@MainActivity, key).reaction(event, taskId.ifBlank { null })
                 binding.generatedImage.loadFromUrl(url)
             } catch (e: Exception) {
                 Toast.makeText(this@MainActivity, "Реакция: ${e.message}", Toast.LENGTH_LONG).show()
@@ -71,9 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestPermissionsAndStart() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS); return
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) { notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS); return }
         checkAndRequestOverlay()
     }
     private fun checkAndRequestOverlay() {
